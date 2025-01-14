@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+langchain = "*"
+black = "*"
+openai = "*"
+streamlit = "*"
+streamlit-chat = "*"
+langchain-pinecone = "*"
+langchain-openai = "*"
+langchain-community = "*"
+isort = "*"
+langchainhub = "*"
+pdfminer = "*"
+"pdfminer.six" = "*"
+pypdf = "*"
+pinecone-client = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"
