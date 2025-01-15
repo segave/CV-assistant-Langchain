@@ -1,12 +1,13 @@
 from langchain.agents import create_react_agent, AgentExecutor
 from langchain_openai import ChatOpenAI
 from langchain import hub
-from backend.agents.retriever import create_flexible_retriever_tool
+from backend.tools.retriever import create_flexible_retriever_tool
 from backend.tools.help_tool import HelpTool
-from backend.agents.email_writer import EmailWriterTool
-from backend.agents.job_matcher import JobMatcherTool
+from backend.agents.email_writer_agent import create_email_writer_agent
+from backend.tools.job_matcher import JobMatcherTool
 from backend.config import ORCHESTRATOR_INSTRUCTIONS
 from backend.tools.email_sender import EmailSenderTool
+from langchain.tools import Tool
 import streamlit as st
 
 
@@ -21,7 +22,17 @@ def create_orchestrator():
     tools = [
         create_flexible_retriever_tool(),
         HelpTool(),
-        EmailWriterTool(),
+        Tool(
+            name="email_writer",
+            func=lambda x: create_email_writer_agent().invoke({
+                "input": x,
+                "chat_history": []
+            }),
+            description="""Writes personalized job opportunity emails to candidates. Use this tool when you want to:
+    - Generate a professional email inviting a candidate to apply
+    - Write a job opportunity email based on candidate's background
+    Input should be the candidate's background information."""
+        ),
         JobMatcherTool(),
         EmailSenderTool(),
     ]
