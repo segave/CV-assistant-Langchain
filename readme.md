@@ -87,4 +87,61 @@ Before you begin, make sure you have the following installed:
    - Local URL: http://localhost:8501
    - Network URL: http://192.168.X.X:8501 (for accessing from other devices on your network)
 
+## Environment Configuration
+
+1. **Create Environment File**
+   
+   Copy the example environment file and fill in your credentials:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Required Environment Variables**
+   
+   The following environment variables are required to run the application:
+   - `OPENAI_API_KEY`: Your OpenAI API key
+   - `PINECONE_API_KEY`: Your Pinecone API key for vector storage
+   - `INDEX_NAME`: Name of your Pinecone index
+   - `NAMESPACE`: Namespace for your vector storage
+
+## Features and Functionality
+
+### 1. User Profile and Job Description Setup
+- Configure your recruiter profile with personal and company information
+- Set up detailed job descriptions including:
+  * Position title and department
+  * Job requirements and responsibilities
+  * Location and contract type
+  * Salary range and benefits
+
+### 2. CV Management
+- Upload and process multiple CV documents
+- Search through CVs using flexible criteria:
+  * Search by candidate name
+  * Search by specific skills or experience
+  * Search by location
+- View and analyze CV content directly in the application
+
+### 3. Candidate Communication
+- Generate personalized professional emails to candidates
+- Features for email management:
+  * Automatic email template generation based on job description
+  * Personalization using candidate information
+  * Preview emails before sending
+  * Send emails directly from the application (requires email configuration)
+
+### 4. Job Matching
+- Compare candidate profiles with job requirements
+- Get matching scores and detailed analysis
+- Identify best-fit candidates for your positions
+
+### 5. Email Configuration
+- Set up email credentials for sending messages
+- Support for Gmail and other email providers
+- Secure credential management
+
+### 6. AI Model Selection
+- Choose between different AI models for processing
+- Adjust settings for optimal performance
+
 More sections about configuration and usage will be added soon...
