@@ -1,7 +1,7 @@
 from langchain.tools import BaseTool
 from langchain_openai import ChatOpenAI
 from langchain.prompts import ChatPromptTemplate
-from backend.agents.retriever import create_flexible_retriever_tool
+from backend.tools.retriever import create_flexible_retriever_tool
 from typing import Dict, Any, Union
 from pydantic import Field
 import streamlit as st
