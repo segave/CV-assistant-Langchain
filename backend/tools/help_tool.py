@@ -4,53 +4,40 @@ from typing import Optional
 
 
 class HelpTool(BaseTool):
-    name: str = "help_tool"
-    description: str = (
-        "Provides information about how to use the application and its features"
-    )
+    name: str = "help"
+    description: str = """Use this tool to get help about:
+    - Available commands and tools
+    - How to use specific features
+    - Required configurations"""
 
     def _run(self, query: str = "") -> str:
         """Executes the help tool"""
-        return """
-🤖 Welcome to the CV AI Assistant
+        return """I can help you with the following tasks:
 
-This application allows you to:
+1. Search and Retrieve CVs
+   - Search by name: "Find CV for John Doe"
+   - Search by skills: "Find candidates with Python experience"
+   - Search by location: "Find candidates in Madrid"
 
-1. Query CVs
-   - Ask questions about specific candidates
-   - Search by name, skills, or experience
-   - Get detailed profile information
-
-2. Job Matching
-   - Find candidates that match job requirements
-   - Get detailed analysis of candidate matches
-   - View match percentages for each candidate
-   - Identify strongest candidates for the position
-
-3. Email Communication
+2. Write Professional Emails
    - Generate personalized job opportunity emails
-   - Contact candidates about the position
-   - Highlight relevant experience matches
-   - Include professional signatures automatically
+   - Write invitation emails to candidates
 
-4. Types of questions you can ask:
-   - "What experience does [name] have in [technology]?"
-   - "What is [name]'s academic background?"
-   - "Who has experience in [technology]?"
-   - "Find candidates with skills in [area]"
-   - "Find matching candidates for the position"
-   - "Write an email to [candidate] about the job opportunity"
-   - "Who would be the best fit for this position?"
+3. Job Matching
+   - Compare candidate profiles with job requirements
+   - Get matching scores and analysis
+   
+4. General Help
+   - Ask about any feature or capability
+   - Get guidance on how to use specific tools
 
-5. Usage tips:
-   - Be specific in your questions
-   - You can ask about multiple aspects in one query
-   - The assistant maintains conversation context
-   - Use 'match' or 'find candidates' for job matching
-   - Use 'write email' or 'contact' for email generation
+To get started, you can:
+1. Upload CVs using the document uploader
+2. Configure your recruiter profile and job details
+3. Set up email credentials to enable sending
+4. Start searching for candidates or writing emails
 
-To get started, simply type your question in the chat.
-"""
+How can I assist you today?"""
 
     async def _arun(self, query: str = "") -> Any:
         """Async implementation"""
