@@ -5,6 +5,14 @@ from langchain.tools import Tool
 from langchain.prompts import ChatPromptTemplate
 import streamlit as st
 from typing import Union, Dict, Any, Optional
+from langchain.output_parsers import ResponseSchema, StructuredOutputParser
+
+# Define el esquema de salida esperado
+EMAIL_SCHEMAS = [
+    ResponseSchema(name="email_content", description="The main body of the email"),
+    ResponseSchema(name="subject", description="The email subject line"),
+    ResponseSchema(name="to_email", description="The recipient's email address")
+]
 
 EMAIL_PROMPT = ChatPromptTemplate.from_messages([
     (
@@ -17,12 +25,8 @@ EMAIL_PROMPT = ChatPromptTemplate.from_messages([
         - Clear and concise
         - Include a call to action
         
-        Use the provided information about:
-        1. The recruiter (sender)
-        2. The job offer
-        3. The candidate's background
-        
-        Format the email with proper structure and spacing."""
+        {format_instructions}
+        """
     ),
     (
         "user",
@@ -93,11 +97,15 @@ Returns a dictionary with the email content and sending data."""
     
     return agent_executor
 
-def _generate_email_template(candidate_info: Union[str, Dict[str, Any]], llm: ChatOpenAI) -> str:
+def _generate_email_template(candidate_info: Union[str, Dict[str, Any]], llm: ChatOpenAI) -> dict:
     """Internal helper function to generate the base email template."""
     # Extract content if candidate_info is a dictionary
     if isinstance(candidate_info, dict):
         candidate_info = candidate_info.get("page_content", "")
+
+    # Create parser
+    output_parser = StructuredOutputParser.from_response_schemas(EMAIL_SCHEMAS)
+    format_instructions = output_parser.get_format_instructions()
 
     # Get recruiter information from session state
     recruiter_info = f"""
@@ -111,6 +119,7 @@ Phone: {st.session_state.get("phone", "")}
     # Generate email content using the provided LLM
     response = llm.invoke(
         EMAIL_PROMPT.format_messages(
+            format_instructions=format_instructions,
             recruiter_info=recruiter_info,
             position_title=st.session_state.get("position_title", ""),
             description=st.session_state.get("description", ""),
@@ -124,53 +133,39 @@ Phone: {st.session_state.get("phone", "")}
         )
     )
     
-    return response.content
-
-def _personalize_email(template: str, candidate_info: dict) -> str:
-    """Internal helper function to personalize the email template."""
-    email_content = template
-    email_content += f"\n\nBest regards,\n{st.session_state.get('name', '')}"
-    return email_content
+    # Parse the response
+    try:
+        parsed_response = output_parser.parse(response.content)
+        return parsed_response
+    except Exception as e:
+        st.error(f"Error parsing email response: {str(e)}")
+        return {
+            "email_content": response.content,
+            "subject": f"Job Opportunity at {st.session_state.get('company', '')}",
+            "to_email": ""
+        }
 
 def write_email(candidate_info: Union[str, Dict[str, Any]]) -> dict:
     """
     Tool that writes a personalized email based on candidate information.
-    
-    Args:
-        candidate_info: String or Dict containing candidate information. Can be:
-            - A string with the candidate's background
-            - A dict with candidate info from the retriever
-            - A dict with name, email and message fields
-        llm: Optional ChatOpenAI instance to use for generation
-        
-    Returns:
-        Dictionary with email content and sending data
     """
-    # Use provided LLM or create a new one if none provided
-    
     llm = ChatOpenAI(
         temperature=0.7,
         model=st.session_state.get("selected_model", "gpt-4o-mini")
     )
     
-    # Extract email if candidate_info is a dictionary
-    candidate_email = ""
-    if isinstance(candidate_info, dict):
-        candidate_email = candidate_info.get("metadata", {}).get("email", "")
-        candidate_info = candidate_info.get("page_content", "")
-    
     # Generate the email content using internal helper functions
-    email_content = _generate_email_template(candidate_info, llm)
-    final_email = _personalize_email(email_content, candidate_info)
+    email_data = _generate_email_template(candidate_info, llm)
     
-    # Prepare email data
-    email_data = {
-        "to_email": candidate_email,
-        "subject": f"Job Opportunity: {st.session_state.get('position_title', '')} at {st.session_state.get('company', '')}",
-        "body": final_email,
-    }
+    # Extract email if candidate_info is a dictionary
+    if isinstance(candidate_info, dict):
+        email_data["to_email"] = candidate_info.get("metadata", {}).get("email", "")
     
     return {
-        "email_content": final_email,
-        "email_data": email_data
+        "email_content": email_data["email_content"],
+        "email_data": {
+            "to_email": email_data["to_email"],
+            "subject": email_data["subject"],
+            "body": email_data["email_content"]
+        }
     } 
