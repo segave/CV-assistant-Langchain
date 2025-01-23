@@ -144,4 +144,50 @@ Before you begin, make sure you have the following installed:
 - Choose between different AI models for processing
 - Adjust settings for optimal performance
 
+## Docker Installation
+
+If you prefer to use Docker, you can run the application using our Docker image 
+([available on Docker Hub](https://hub.docker.com/r/sergiogaliana/cv-assistant-langchain)):
+
+### Option 1: Using Docker Run
+
+1. **Pull the Docker image**:
+   ```bash
+   docker pull sergiogaliana/cv-assistant-langchain:latest
+   ```
+
+2. **Run the container with environment variables**:
+   ```bash
+   docker run -p 8501:8501 \
+     -e OPENAI_API_KEY=your_key \
+     -e PINECONE_API_KEY=your_key \
+     -e INDEX_NAME=your_index \
+     -e NAMESPACE=your_namespace \
+     sergiogaliana/cv-assistant-langchain:latest
+   ```
+
+### Option 2: Using Docker Compose (Recommended)
+
+1. **Create a docker-compose.yml file**:
+   ```bash
+   cp docker-compose.yml.example docker-compose.yml
+   ```
+
+2. **Add your environment variables**:
+   Either edit the docker-compose.yml directly or create a .env file with your variables:
+   ```env
+   OPENAI_API_KEY=your_key
+   PINECONE_API_KEY=your_key
+   INDEX_NAME=your_index
+   NAMESPACE=your_namespace
+   ```
+
+3. **Run the container**:
+   ```bash
+   docker-compose up
+   ```
+
+The application will be available at:
+- Local URL: http://localhost:8501
+
 More sections about configuration and usage will be added soon...

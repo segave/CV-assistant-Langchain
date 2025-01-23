@@ -130,3 +130,7 @@ dmypy.json
 
 #Personal documents
 ingestion/DOCS/
+
+# Docker files
+docker-compose.yml
+.dockerignore
