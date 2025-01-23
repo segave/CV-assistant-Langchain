@@ -1,7 +1,7 @@
 version: '3'
 services:
   cv-assistant:
-    build: .
+    image: sergiogaliana/cv-assistant-langchain:latest
     ports:
       - "8501:8501"
     environment:
