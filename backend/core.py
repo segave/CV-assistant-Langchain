@@ -1,5 +1,5 @@
 from typing import Dict, Any
-from backend.orchestrator import create_orchestrator
+from backend.orchestrator.executor_factory import create_orchestrator
 
 
 def run_llm(query: str, chat_history: list) -> Dict[str, Any]:
