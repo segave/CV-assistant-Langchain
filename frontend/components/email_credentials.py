@@ -1,6 +1,6 @@
 import streamlit as st
 from frontend.ui.factory import UIFactory
-from frontend.ui.base import UIRenderer
+from frontend.ui.interfaces.base import InputInterface
 
 def generate_gmail_app_password_help():
     """
@@ -45,7 +45,7 @@ def generate_gmail_app_password_help():
     """
     return help_text
 
-def render_email_credentials(ui: UIRenderer = None):
+def render_email_credentials(ui: InputInterface = None):
     """Render the email credentials input section."""
     ui = ui or UIFactory.create()
 

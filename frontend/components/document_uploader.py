@@ -3,9 +3,10 @@ from ingestion.ingestion import process_pdfs_and_create_vectorstore_with_ai
 import os
 import tempfile
 from frontend.ui.factory import UIFactory
-from frontend.ui.base import UIRenderer
+from frontend.ui.interfaces.base import UploadInterface, MessagingInterface
+from typing import Union
 
-def render_document_uploader(ui: UIRenderer = None):
+def render_document_uploader(ui: Union[UploadInterface, MessagingInterface] = None):
     """Render the document uploader section in the right sidebar."""
     ui = ui or UIFactory.create()
     

@@ -2,10 +2,11 @@ import streamlit as st
 from streamlit_chat import message
 from backend.core import run_llm
 from frontend.ui.factory import UIFactory
-from frontend.ui.base import UIRenderer
+from frontend.ui.interfaces.base import ChatInterface, MessagingInterface
+from typing import Union
 
 
-def render_chat_interface(ui: UIRenderer = None):
+def render_chat_interface(ui: Union[ChatInterface, MessagingInterface] = None):
     """Render the chat interface."""
     ui = ui or UIFactory.create()
 

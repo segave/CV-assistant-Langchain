@@ -1,8 +1,8 @@
 import streamlit as st
 from frontend.ui.factory import UIFactory
-from frontend.ui.base import UIRenderer
+from frontend.ui.interfaces.base import InputInterface
 
-def render_job_description(ui: UIRenderer = None):
+def render_job_description(ui: InputInterface = None):
     """Render the job description input section."""
     ui = ui or UIFactory.create()  # Default to Streamlit if no renderer provided
     

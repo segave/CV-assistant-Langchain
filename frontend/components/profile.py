@@ -1,9 +1,9 @@
 import streamlit as st
 from frontend.ui.factory import UIFactory
-from frontend.ui.base import UIRenderer
+from frontend.ui.interfaces.base import InputInterface
 
 
-def render_profile(ui: UIRenderer = None):
+def render_profile(ui: InputInterface = None):
     """Render user profile with style"""
     ui = ui or UIFactory.create()
 

@@ -1,8 +1,8 @@
 import streamlit as st
 from frontend.ui.factory import UIFactory
-from frontend.ui.base import UIRenderer
+from frontend.ui.interfaces.base import SelectionInterface
 
-def render_model_selector(ui: UIRenderer = None):
+def render_model_selector(ui: SelectionInterface = None):
     """Render the AI model selector."""
     ui = ui or UIFactory.create()
     
