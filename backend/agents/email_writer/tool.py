@@ -4,7 +4,17 @@ from .llm_config import create_email_llm
 from .template_generator import generate_email_template
 
 def write_email(candidate_info: Union[str, Dict[str, Any]]) -> dict:
-    """Tool that writes a personalized email based on candidate information."""
+    """Write a personalized email based on candidate information.
+    
+    Args:
+        candidate_info (Union[str, Dict[str, Any]]): Information about the candidate.
+            Can be either a string description or a dictionary with structured data.
+    
+    Returns:
+        dict: A dictionary containing:
+            - email_content (str): The generated email body
+            - email_data (dict): Structured data including to_email, subject, and body
+    """
     # Create LLM
     llm = create_email_llm()
     

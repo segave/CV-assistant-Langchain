@@ -6,6 +6,16 @@ from .analyzer import analyze_candidates
 from backend.tools.retriever import create_flexible_retriever_tool
 
 class JobMatcherTool(BaseTool):
+    """A tool for finding and analyzing candidate matches for job openings.
+    
+    This tool searches through candidate profiles and analyzes their fit
+    against the current job requirements. It uses the job description details
+    stored in the application state to find suitable matches.
+    
+    Attributes:
+        name (str): The name identifier for the tool.
+        description (str): Detailed description of the tool's functionality.
+    """
     name: str = "job_matcher"
     description: str = """Finds candidates that match the current job opening requirements. Use this tool when you want to:
     - Find candidates that match the job requirements

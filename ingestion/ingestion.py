@@ -82,9 +82,25 @@ def extract_name_using_ai(file_name: str, document_text: str) -> Optional[str]:
         return None
 
 
-def process_pdfs_and_create_vectorstore_with_ai(pdf_folder, index_name, namespace):
-    """
-    Procesa PDFs y usa IA para extraer nombres, dividiendo en chunks y subiendo a Pinecone.
+def process_pdfs_and_create_vectorstore_with_ai(
+    pdf_folder: str,
+    index_name: str,
+    namespace: str
+) -> None:
+    """Process PDF documents and create a vector store with AI-enhanced analysis.
+    
+    This function processes PDF files from a specified folder, extracts text content,
+    analyzes it using AI to enhance the information, and stores the processed data
+    in a vector database for efficient retrieval.
+    
+    Args:
+        pdf_folder (str): Path to the folder containing PDF files to process
+        index_name (str): Name of the vector store index to create/update
+        namespace (str): Namespace within the index for organizing data
+    
+    Raises:
+        FileNotFoundError: If the PDF folder doesn't exist
+        Exception: If there's an error during processing or vector store creation
     """
     # Initialize Pinecone
     pc = Pinecone(api_key=os.getenv("PINECONE_API_KEY"))
@@ -147,9 +163,3 @@ def process_pdfs_and_create_vectorstore_with_ai(pdf_folder, index_name, namespac
     else:
         print("No documents were processed successfully.")
 
-
-if __name__ == "__main__":
-    # Ejemplo de uso
-    process_pdfs_and_create_vectorstore_with_ai(
-        pdf_folder="ingestion/DOCS", index_name=INDEX_NAME, namespace=NAMESPACE
-    )

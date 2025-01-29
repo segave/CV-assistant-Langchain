@@ -2,8 +2,8 @@ import streamlit as st
 from typing import Any
 
 from ..interfaces.base import (
-    InputInterface, 
-    SelectionInterface, 
+    InputInterface,
+    SelectionInterface,
     MessagingInterface,
     ChatInterface,
     UploadInterface
@@ -45,4 +45,4 @@ class StreamlitRenderer(
     
     # Upload methods
     def file_uploader(self, label: str, type: list, **kwargs) -> Any:
-        return st.file_uploader(label, type=type, **kwargs) 
+        return st.file_uploader(label, type=type, **kwargs)

@@ -3,16 +3,15 @@ from typing import Dict, Any
 from backend.orchestrator.executor_factory import create_orchestrator
 
 
-def run_llm(query: str, chat_history: list) -> Dict[str, Any]:
-    """
-    Main entry point for the LLM pipeline.
+def run_llm(query: str, chat_history: list = None) -> Dict[str, Any]:
+    """Run the LLM orchestrator with the given query.
 
     Args:
-        query: User's input query
-        chat_history: List of previous interactions
+        query (str): The user's input query.
+        chat_history (list, optional): Previous conversation history. Defaults to None.
 
     Returns:
-        Dict containing answer and context
+        Dict[str, Any]: Response containing the answer and any additional data.
     """
     orchestrator = create_orchestrator()
 

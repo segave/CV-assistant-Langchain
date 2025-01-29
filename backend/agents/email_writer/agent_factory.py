@@ -6,7 +6,14 @@ from .tool import write_email
 from .llm_config import create_email_llm
 
 def create_email_writer_agent():
-    """Creates and returns an email writer agent with its executor."""
+    """Create and configure an email writer agent.
+    
+    Creates an agent specialized in writing professional emails to job candidates,
+    configured with specific tools and prompts for email composition.
+    
+    Returns:
+        AgentExecutor: Configured agent executor ready to write emails.
+    """
     
     # Create the LLM
     llm = create_email_llm()
