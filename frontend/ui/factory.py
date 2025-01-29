@@ -6,7 +6,11 @@ from .interfaces.base import (
     ChatInterface,
     UploadInterface
 )
-from .streamlit_renderer import StreamlitRenderer
+from .interfaces.state import StateInterface
+from .interfaces.markup import MarkupInterface
+from .streamlit_impl.streamlit_renderer import StreamlitRenderer
+from .streamlit_impl.state import StreamlitState
+from .streamlit_impl.markup import StreamlitMarkup
 
 UIType = Union[
     InputInterface,
@@ -17,7 +21,7 @@ UIType = Union[
 ]
 
 class UIFactory:
-    """Factory for creating UI renderers."""
+    """Factory for creating UI components."""
     
     _renderers: Dict[str, Type[UIType]] = {
         "streamlit": StreamlitRenderer
@@ -34,4 +38,16 @@ class UIFactory:
         if renderer_type not in cls._renderers:
             raise ValueError(f"Unknown renderer type: {renderer_type}")
         
-        return cls._renderers[renderer_type]() 
+        return cls._renderers[renderer_type]()
+    
+    @classmethod
+    def create_ui(cls) -> StreamlitRenderer:
+        return StreamlitRenderer()
+    
+    @classmethod
+    def create_state(cls) -> StateInterface:
+        return StreamlitState()
+    
+    @classmethod
+    def create_markup(cls) -> MarkupInterface:
+        return StreamlitMarkup() 

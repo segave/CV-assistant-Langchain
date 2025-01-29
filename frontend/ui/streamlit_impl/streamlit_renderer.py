@@ -1,6 +1,6 @@
 import streamlit as st
 from typing import Any
-from .interfaces.base import (
+from ..interfaces.base import (
     InputInterface, 
     SelectionInterface, 
     MessagingInterface,

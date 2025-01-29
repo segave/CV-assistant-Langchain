@@ -1,6 +1,9 @@
 import streamlit as st
 from frontend.ui.factory import UIFactory
 from frontend.ui.interfaces.base import InputInterface
+from frontend.ui.interfaces.state import StateInterface
+from frontend.ui.interfaces.markup import MarkupInterface
+from typing import Optional
 
 def generate_gmail_app_password_help():
     """
@@ -45,26 +48,30 @@ def generate_gmail_app_password_help():
     """
     return help_text
 
-def render_email_credentials(ui: InputInterface = None):
+def render_email_credentials(
+    ui: Optional[InputInterface] = None,
+    state: Optional[StateInterface] = None,
+    markup: Optional[MarkupInterface] = None
+):
     """Render the email credentials input section."""
-    ui = ui or UIFactory.create()
+    ui = ui or UIFactory.create_ui()
+    state = state or UIFactory.create_state()
+    markup = markup or UIFactory.create_markup()
 
     # Initialize session state for email credentials
-    if "email" not in st.session_state:
-        st.session_state["email"] = ""
-    if "password" not in st.session_state:
-        st.session_state["password"] = ""
+    state.init_default("email", "")
+    state.init_default("password", "")
 
-    st.markdown("### Email Credentials")
-    email = ui.text_input("Enter your email address:", value=st.session_state["email"])
+    markup.markdown("### Email Credentials")
+    email = ui.text_input("Enter your email address:", value=state.get("email"))
     # Add help text for password input
     password = ui.text_input(
         "Enter your email password:", 
         type="password", 
-        value=st.session_state["password"],
+        value=state.get("password"),
         help=generate_gmail_app_password_help()
     )
 
     # Store credentials in session state
-    st.session_state["email"] = email
-    st.session_state["password"] = password 
+    state.set("email", email)
+    state.set("password", password) 

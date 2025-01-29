@@ -1,36 +1,37 @@
 import streamlit as st
 from frontend.ui.factory import UIFactory
 from frontend.ui.interfaces.base import InputInterface
+from frontend.ui.interfaces.state import StateInterface
+from frontend.ui.interfaces.markup import MarkupInterface
+from typing import Optional
 
-def render_job_description(ui: InputInterface = None):
+def render_job_description(
+    ui: Optional[InputInterface] = None,
+    state: Optional[StateInterface] = None,
+    markup: Optional[MarkupInterface] = None
+):
     """Render the job description input section."""
-    ui = ui or UIFactory.create()  # Default to Streamlit if no renderer provided
+    ui = ui or UIFactory.create_ui()
+    state = state or UIFactory.create_state()
+    markup = markup or UIFactory.create_markup()
     
     # Initialize session state for job description fields
-    if "position_title" not in st.session_state:
-        st.session_state["position_title"] = ""
-    if "description" not in st.session_state:
-        st.session_state["description"] = ""
-    if "department" not in st.session_state:
-        st.session_state["department"] = ""
-    if "location" not in st.session_state:
-        st.session_state["location"] = ""
-    if "contract_type" not in st.session_state:
-        st.session_state["contract_type"] = ""
-    if "salary_range" not in st.session_state:
-        st.session_state["salary_range"] = ""
-    if "key_requirements" not in st.session_state:
-        st.session_state["key_requirements"] = ""
-    if "benefits" not in st.session_state:
-        st.session_state["benefits"] = ""
+    state.init_default("position_title", "")
+    state.init_default("description", "")
+    state.init_default("department", "")
+    state.init_default("location", "")
+    state.init_default("contract_type", "")
+    state.init_default("salary_range", "")
+    state.init_default("key_requirements", "")
+    state.init_default("benefits", "")
 
-    st.markdown("### Job Description")
+    markup.markdown("### Job Description")
 
-    st.session_state["position_title"] = ui.text_input("Position Title", value=st.session_state["position_title"])
-    st.session_state["description"] = ui.text_area("Description", value=st.session_state["description"], height=200)
-    st.session_state["department"] = ui.text_input("Department", value=st.session_state["department"])
-    st.session_state["location"] = ui.text_input("Location", value=st.session_state["location"])
-    st.session_state["contract_type"] = ui.text_input("Contract Type", value=st.session_state["contract_type"])
-    st.session_state["salary_range"] = ui.text_input("Salary Range", value=st.session_state["salary_range"])
-    st.session_state["key_requirements"] = ui.text_area("Key Requirements", value=st.session_state["key_requirements"], height=150)
-    st.session_state["benefits"] = ui.text_area("Benefits", value=st.session_state["benefits"], height=150) 
+    state.set("position_title", ui.text_input("Position Title", value=state.get("position_title")))
+    state.set("description", ui.text_area("Description", value=state.get("description"), height=200))
+    state.set("department", ui.text_input("Department", value=state.get("department")))
+    state.set("location", ui.text_input("Location", value=state.get("location")))
+    state.set("contract_type", ui.text_input("Contract Type", value=state.get("contract_type")))
+    state.set("salary_range", ui.text_input("Salary Range", value=state.get("salary_range")))
+    state.set("key_requirements", ui.text_area("Key Requirements", value=state.get("key_requirements"), height=150))
+    state.set("benefits", ui.text_area("Benefits", value=state.get("benefits"), height=150)) 

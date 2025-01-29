@@ -3,21 +3,27 @@ from streamlit_chat import message
 from backend.core import run_llm
 from frontend.ui.factory import UIFactory
 from frontend.ui.interfaces.base import ChatInterface, MessagingInterface
-from typing import Union
+from frontend.ui.interfaces.state import StateInterface
+from frontend.ui.interfaces.markup import MarkupInterface
+from typing import Optional, Union
 
 
-def render_chat_interface(ui: Union[ChatInterface, MessagingInterface] = None):
+def render_chat_interface(
+    ui: Optional[Union[ChatInterface, MessagingInterface]] = None,
+    state: Optional[StateInterface] = None,
+    markup: Optional[MarkupInterface] = None
+):
     """Render the chat interface."""
-    ui = ui or UIFactory.create()
-
-    st.markdown("### Chat")
+    ui = ui or UIFactory.create_ui()
+    state = state or UIFactory.create_state()
+    markup = markup or UIFactory.create_markup()
 
     # Initialize session state
-    if "chat_answers_history" not in st.session_state:
-        st.session_state["chat_answers_history"] = []
-        st.session_state["user_prompt_history"] = []
-        st.session_state["chat_history"] = []
-        st.session_state["current_input"] = ""
+    state.init_default("chat_answers_history", [])
+    state.init_default("user_prompt_history", [])
+    state.init_default("chat_history", [])
+
+    markup.markdown("### Chat")
 
     # Chat container with style
     chat_container = st.container()
@@ -27,11 +33,11 @@ def render_chat_interface(ui: Union[ChatInterface, MessagingInterface] = None):
 
     # Display chat history
     with chat_container:
-        if st.session_state["chat_answers_history"]:
+        if state.get("chat_answers_history"):
             for i, (user_query, ai_response) in enumerate(
                 zip(
-                    st.session_state["user_prompt_history"],
-                    st.session_state["chat_answers_history"],
+                    state.get("user_prompt_history"),
+                    state.get("chat_answers_history"),
                 )
             ):
                 message(user_query, is_user=True, key=f"user_msg_{i}")
@@ -57,14 +63,13 @@ def render_chat_interface(ui: Union[ChatInterface, MessagingInterface] = None):
             with st.spinner("Generating response..."):
                 # Process input
                 response = run_llm(
-                    query=user_input, chat_history=st.session_state["chat_history"]
+                    query=user_input, chat_history=state.get("chat_history")
                 )
 
                 # Update state
-                st.session_state["user_prompt_history"].append(user_input)
-                st.session_state["chat_answers_history"].append(response["answer"])
-                st.session_state["chat_history"].append(("human", user_input))
-                st.session_state["chat_history"].append(("ai", response["answer"]))
+                state.set("user_prompt_history", state.get("user_prompt_history") + [user_input])
+                state.set("chat_answers_history", state.get("chat_answers_history") + [response["answer"]])
+                state.set("chat_history", state.get("chat_history") + [("human", user_input), ("ai", response["answer"])])
 
                 # Rerun to update chat
                 st.rerun()

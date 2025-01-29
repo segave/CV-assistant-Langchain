@@ -4,13 +4,21 @@ import os
 import tempfile
 from frontend.ui.factory import UIFactory
 from frontend.ui.interfaces.base import UploadInterface, MessagingInterface
-from typing import Union
+from frontend.ui.interfaces.state import StateInterface
+from frontend.ui.interfaces.markup import MarkupInterface
+from typing import Optional, Union
 
-def render_document_uploader(ui: Union[UploadInterface, MessagingInterface] = None):
+def render_document_uploader(
+    ui: Optional[Union[UploadInterface, MessagingInterface]] = None,
+    state: Optional[StateInterface] = None,
+    markup: Optional[MarkupInterface] = None
+):
     """Render the document uploader section in the right sidebar."""
-    ui = ui or UIFactory.create()
+    ui = ui or UIFactory.create_ui()
+    state = state or UIFactory.create_state()
+    markup = markup or UIFactory.create_markup()
     
-    st.markdown("### Document Upload")
+    markup.markdown("### Document Upload")
     
     # File uploader for PDFs
     uploaded_files = ui.file_uploader(
