@@ -1,5 +1,6 @@
 from langchain.tools import BaseTool
 from typing import Any
+
 from .query_builder import build_search_query
 from .analyzer import analyze_candidates
 from backend.tools.retriever import create_flexible_retriever_tool

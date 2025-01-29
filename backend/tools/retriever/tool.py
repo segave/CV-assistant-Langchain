@@ -1,5 +1,6 @@
 from langchain.tools import Tool
 from typing import Dict, Any
+
 from .config import get_search_config
 from .input_processor import process_input
 from .search_chain import create_search_chain

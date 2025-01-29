@@ -1,4 +1,5 @@
 import streamlit as st
+
 from ..interfaces.markup import MarkupInterface
 
 class StreamlitMarkup(MarkupInterface):

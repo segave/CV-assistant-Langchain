@@ -1,6 +1,7 @@
 import streamlit as st
-from ..interfaces.state import StateInterface
 from typing import Any
+
+from ..interfaces.state import StateInterface
 
 class StreamlitState(StateInterface):
     """Streamlit implementation of state management."""

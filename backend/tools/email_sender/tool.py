@@ -1,5 +1,6 @@
 from langchain.tools import BaseTool
 from typing import Dict, Any, Union
+
 from .input_validator import validate_email_data
 from .credentials_manager import get_smtp_credentials
 from .message_builder import create_email_message

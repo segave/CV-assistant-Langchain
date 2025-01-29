@@ -1,9 +1,9 @@
-import streamlit as st
+from typing import Optional
+
 from frontend.ui.factory import UIFactory
 from frontend.ui.interfaces.base import InputInterface
 from frontend.ui.interfaces.state import StateInterface
 from frontend.ui.interfaces.markup import MarkupInterface
-from typing import Optional
 
 def generate_gmail_app_password_help():
     """

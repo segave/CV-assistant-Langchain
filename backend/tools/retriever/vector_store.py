@@ -1,5 +1,6 @@
 from langchain_openai import OpenAIEmbeddings
 from langchain_pinecone import PineconeVectorStore
+
 from .config import INDEX_NAME, NAMESPACE
 
 def create_vector_store():

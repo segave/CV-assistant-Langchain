@@ -1,4 +1,5 @@
 from typing import Union, Dict, Any
+
 from .llm_config import create_email_llm
 from .template_generator import generate_email_template
 

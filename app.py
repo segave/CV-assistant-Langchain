@@ -1,4 +1,5 @@
 import streamlit as st
+
 from frontend.components.profile import render_profile
 from frontend.components.chat import render_chat_interface
 from frontend.components.email_credentials import render_email_credentials

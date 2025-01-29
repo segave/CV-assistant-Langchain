@@ -1,4 +1,5 @@
 from typing import Dict, Type, Union
+
 from .interfaces.base import (
     InputInterface,
     SelectionInterface,

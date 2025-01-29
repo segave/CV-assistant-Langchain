@@ -1,7 +1,9 @@
 import streamlit as st
-from ingestion.ingestion import process_pdfs_and_create_vectorstore_with_ai
 import os
 import tempfile
+from typing import Optional, Union
+
+from ingestion.ingestion import process_pdfs_and_create_vectorstore_with_ai
 from frontend.ui.factory import UIFactory
 from frontend.ui.interfaces.base import UploadInterface, MessagingInterface
 from frontend.ui.interfaces.state import StateInterface

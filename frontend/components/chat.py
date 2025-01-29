@@ -1,11 +1,13 @@
 import streamlit as st
 from streamlit_chat import message
+from typing import Optional, Union
+
 from backend.core import run_llm
 from frontend.ui.factory import UIFactory
 from frontend.ui.interfaces.base import ChatInterface, MessagingInterface
 from frontend.ui.interfaces.state import StateInterface
 from frontend.ui.interfaces.markup import MarkupInterface
-from typing import Optional, Union
+
 
 
 def render_chat_interface(
