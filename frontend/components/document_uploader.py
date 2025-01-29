@@ -2,17 +2,21 @@ import streamlit as st
 from ingestion.ingestion import process_pdfs_and_create_vectorstore_with_ai
 import os
 import tempfile
+from frontend.ui.factory import UIFactory
+from frontend.ui.base import UIRenderer
 
-def render_document_uploader():
+def render_document_uploader(ui: UIRenderer = None):
     """Render the document uploader section in the right sidebar."""
+    ui = ui or UIFactory.create()
+    
     st.markdown("### Document Upload")
     
     # File uploader for PDFs
-    uploaded_files = st.file_uploader(
-        "Upload PDF documents",
-        type=["pdf"],
+    uploaded_files = ui.file_uploader(
+        "Upload CV documents",
+        type=["pdf", "docx", "txt"],
         accept_multiple_files=True,
-        help="You can upload one or multiple PDF files"
+        help="You can upload one or multiple PDF, DOCX, or TXT files"
     )
     
     # Create a temporary directory for storing documents if it doesn't exist
@@ -42,7 +46,7 @@ def render_document_uploader():
                         index_name=os.getenv("INDEX_NAME"),
                         namespace=os.getenv("NAMESPACE")
                     )
-                st.success(f"{len(saved_files)} document(s) successfully ingested!")
+                ui.success(f"{len(saved_files)} document(s) successfully ingested!")
                 
                 # Clean up
                 for file_path in saved_files:
@@ -50,21 +54,23 @@ def render_document_uploader():
                         os.remove(file_path)
             
             except Exception as e:
-                st.error(f"Error processing documents: {str(e)}")
+                ui.error(f"Error processing documents: {str(e)}")
                 # Clean up on error
                 for file_path in saved_files:
                     if os.path.exists(file_path):
                         os.remove(file_path)
         else:
-            st.warning("Please upload PDF documents before ingesting.")
+            st.warning("Please upload CV documents before ingesting.")
 
     # Add some information about supported formats
     st.markdown("""
     #### Supported Formats
     - PDF documents
+    - DOCX documents
+    - TXT documents
     
     #### Instructions
-    1. Click 'Browse files' to select PDF documents
+    1. Click 'Browse files' to select CV documents
     2. You can select multiple files at once
     3. Click 'Ingest Documents' to process and add them to the database
     """) 

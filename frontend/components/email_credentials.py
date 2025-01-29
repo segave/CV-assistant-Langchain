@@ -1,4 +1,6 @@
 import streamlit as st
+from frontend.ui.factory import UIFactory
+from frontend.ui.base import UIRenderer
 
 def generate_gmail_app_password_help():
     """
@@ -7,7 +9,7 @@ def generate_gmail_app_password_help():
     help_text = """
     ## How to Generate an App Password for Gmail
 
-    If you want to send emails from your application using a Gmail account, you need to generate an app password. This is especially important if you have two-factor authentication (2FA) enabled on your Google account. Here’s how to do it:
+    If you want to send emails from your application using a Gmail account, you need to generate an app password. This is especially important if you have two-factor authentication (2FA) enabled on your Google account. Here's how to do it:
 
     ### Steps to Generate an App Password:
 
@@ -19,7 +21,7 @@ def generate_gmail_app_password_help():
        - In the left navigation panel, click on **Security**.
 
     3. **Enable Two-Step Verification**:
-       - If you haven’t already enabled 2FA, you will need to do so. 
+       - If you haven't already enabled 2FA, you will need to do so. 
        - Under the "Signing in to Google" section, click on **2-Step Verification** and follow the prompts to set it up.
 
     4. **Generate App Password**:
@@ -43,8 +45,10 @@ def generate_gmail_app_password_help():
     """
     return help_text
 
-def render_email_credentials():
+def render_email_credentials(ui: UIRenderer = None):
     """Render the email credentials input section."""
+    ui = ui or UIFactory.create()
+
     # Initialize session state for email credentials
     if "email" not in st.session_state:
         st.session_state["email"] = ""
@@ -52,9 +56,9 @@ def render_email_credentials():
         st.session_state["password"] = ""
 
     st.markdown("### Email Credentials")
-    email = st.text_input("Enter your email address:", value=st.session_state["email"])
+    email = ui.text_input("Enter your email address:", value=st.session_state["email"])
     # Add help text for password input
-    password = st.text_input(
+    password = ui.text_input(
         "Enter your email password:", 
         type="password", 
         value=st.session_state["password"],

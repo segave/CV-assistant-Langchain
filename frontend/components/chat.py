@@ -1,9 +1,16 @@
 import streamlit as st
 from streamlit_chat import message
 from backend.core import run_llm
+from frontend.ui.factory import UIFactory
+from frontend.ui.base import UIRenderer
 
 
-def render_chat_interface():
+def render_chat_interface(ui: UIRenderer = None):
+    """Render the chat interface."""
+    ui = ui or UIFactory.create()
+
+    st.markdown("### Chat")
+
     # Initialize session state
     if "chat_answers_history" not in st.session_state:
         st.session_state["chat_answers_history"] = []
@@ -35,7 +42,7 @@ def render_chat_interface():
         col1, col2 = st.columns([4, 1])
 
         with col1:
-            user_input = st.text_input(
+            user_input = ui.text_input(
                 label="Message",
                 label_visibility="collapsed",
                 placeholder="Type your question here...",
@@ -60,3 +67,5 @@ def render_chat_interface():
 
                 # Rerun to update chat
                 st.rerun()
+
+                ui.success("Response generated!")
