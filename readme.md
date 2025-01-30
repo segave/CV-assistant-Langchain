@@ -144,6 +144,18 @@ Before you begin, make sure you have the following installed:
 - Choose between different AI models for processing
 - Adjust settings for optimal performance
 
+### 7. Email Generation
+- Automated generation of personalized emails to candidates
+- Templates for different types of communications
+- Integration with job descriptions and candidate data
+
+### 8. Email Management and Sending
+- View and edit generated emails in a dedicated interface
+- Edit recipients, subjects, and content before sending
+- Direct email sending from the application
+- Automatic tracking of email history
+- Successfully sent emails are automatically archived
+
 ## Docker Installation
 
 If you prefer to use Docker, you can run the application using our Docker image 

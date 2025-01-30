@@ -18,6 +18,14 @@ class StreamlitRenderer(
 ):
     """Streamlit implementation of all UI interfaces."""
     
+    def expander(self, label: str, **kwargs) -> Any:
+        """Create a Streamlit expander."""
+        return st.expander(label, **kwargs)
+    
+    def button(self, label: str, **kwargs) -> bool:
+        """Create a Streamlit button."""
+        return st.button(label, **kwargs)
+    
     # Input methods
     def text_input(self, label: str, value: str = "", **kwargs) -> str:
         return st.text_input(label, value=value, **kwargs)

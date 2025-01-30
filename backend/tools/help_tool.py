@@ -5,39 +5,48 @@ from typing import Optional
 
 class HelpTool(BaseTool):
     name: str = "help"
-    description: str = """Use this tool to get help about:
-    - Available commands and tools
-    - How to use specific features
-    - Required configurations"""
+    description: str = """Provides help information about the application's features and how to use them."""
 
     def _run(self, query: str = "") -> str:
-        """Executes the help tool"""
-        return """I can help you with the following tasks:
-
-1. Search and Retrieve CVs
-   - Search by name: "Find CV for John Doe"
-   - Search by skills: "Find candidates with Python experience"
-   - Search by location: "Find candidates in Madrid"
-
-2. Write Professional Emails
-   - Generate personalized job opportunity emails
-   - Write invitation emails to candidates
-
-3. Job Matching
-   - Compare candidate profiles with job requirements
-   - Get matching scores and analysis
-   
-4. General Help
-   - Ask about any feature or capability
-   - Get guidance on how to use specific tools
-
-To get started, you can:
-1. Upload CVs using the document uploader
-2. Configure your recruiter profile and job details
-3. Set up email credentials to enable sending
-4. Start searching for candidates or writing emails
-
-How can I assist you today?"""
+        """Return help information about the application."""
+        return """
+        Welcome to the AI Recruiter Assistant! Here's how to use the main features:
+        
+        1. CV Analysis
+        - Upload CV documents in PDF format using the document uploader
+        - The system will automatically extract and analyze the candidate's information
+        - You can view and manage uploaded documents in the document list
+        
+        2. Chat Interface
+        - Use the chat to ask questions about candidates
+        - Request analysis of specific skills or experience
+        - Generate personalized emails for candidates
+        
+        3. Profile Management
+        - Set up your recruiter profile in the User Profile tab
+        - Configure job requirements and preferences
+        - Update company information used in communications
+        
+        4. Email Management
+        - Configure email credentials in the Email Credentials tab
+        - Generate personalized emails through the chat interface
+        - View and manage generated emails in the Generated Emails tab
+        - Edit email content, subject, and recipients before sending
+        - Send emails directly from the interface
+        
+        5. Job Description
+        - Add and update job descriptions in the Job Description tab
+        - Use these descriptions for matching candidates
+        
+        Tips:
+        - Keep your profile and job descriptions up to date for better results
+        - Use specific questions in the chat for more accurate responses
+        - Review generated emails before sending them
+        - You can edit any generated email before sending by clicking the "Edit" button
+        - Successfully sent emails are automatically removed from the history
+        
+        Need more help? Just ask specific questions in the chat!
+        """
 
     async def _arun(self, query: str = "") -> Any:
         """Async implementation"""

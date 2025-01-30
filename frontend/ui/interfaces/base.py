@@ -36,6 +36,32 @@ class InputInterface(ABC):
         """
         pass
 
+    @abstractmethod
+    def expander(self, label: str, **kwargs) -> Any:
+        """Create an expandable container.
+        
+        Args:
+            label (str): Label for the expander
+            **kwargs: Additional styling or behavior parameters
+        
+        Returns:
+            Any: Context manager for the expander
+        """
+        pass
+
+    @abstractmethod
+    def button(self, label: str, **kwargs) -> bool:
+        """Create a clickable button.
+        
+        Args:
+            label (str): Text to display on the button
+            **kwargs: Additional styling or behavior parameters
+        
+        Returns:
+            bool: True if button was clicked, False otherwise
+        """
+        pass
+
 class SelectionInterface(ABC):
     """Interface defining selection UI components.
     

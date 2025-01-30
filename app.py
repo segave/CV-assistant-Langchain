@@ -8,6 +8,7 @@ from frontend.components.document_uploader import render_document_uploader
 from frontend.components.model_selector import render_model_selector
 from frontend.styles.apply_styles import apply_custom_styles
 from frontend.ui.factory import UIFactory
+from frontend.components.email_preview import render_email_preview
 
 # Page configuration MUST be the first Streamlit command
 st.set_page_config(
@@ -32,7 +33,10 @@ def main():
 
     # Left sidebar with tabs
     with left_sidebar:
-        tabs = st.tabs(["User Profile", "Job Description", "Email Credentials"])
+        tabs = st.tabs(["User Profile", 
+                        "Job Description", 
+                        "Email Credentials", 
+                        "Generated Emails"])
         
         with tabs[0]:
             render_profile(ui)
@@ -42,6 +46,9 @@ def main():
         
         with tabs[2]:
             render_email_credentials(ui)
+        
+        with tabs[3]:
+            render_email_preview(ui)
 
     # Main content
     with main_content:
